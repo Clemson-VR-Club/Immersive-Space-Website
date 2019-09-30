@@ -70,17 +70,3 @@ for (var i = 0; i < page_links.length; i++) {
 
     nav_footer.appendChild(currentNavElement);
 }
-
-
-// <tr>
-//     <td><a id="footer-index" href="index.html">Home</a></td>
-//     <td><a id="footer-about" href="about.html">About</a></td>
-// </tr>
-// <tr>
-//     <td><a id="footer-equipment" href="equipment.html">Equipment</a></td>
-//     <td><a id="footer-experiences" href="experiences.html">Experiences</a></td>
-// </tr>
-// <tr>
-//     <td><a id="footer-resources" href="resources.html">Resources</a></td>
-//     <td><a id="footer-reservations" href="reservations.html">Reservations</a></td>
-// </tr>
