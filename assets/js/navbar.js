@@ -5,13 +5,13 @@ class navElement {
 }
 
 var page_links = [
-    new navElement("Home", "index.html"),
-    new navElement("About", "about.html"),
-    new navElement("People", "people.html"),
-    new navElement("Equipment", "equipment.html"),
-    new navElement("Experiences", "experiences.html"),
-    new navElement("Resources", "resources.html"),
-    new navElement("Reservations", "reservations.html"),
+    new navElement("Home", "../home/index.html"),
+    new navElement("About", "../about/index.html"),
+    new navElement("People", "../people/index.html"),
+    new navElement("Equipment", "../equipment/index.html"),
+    new navElement("Experiences", "../experiences/index.html"),
+    new navElement("Resources", "../resources/index.html"),
+    new navElement("Reservations", "../reservations/index.html"),
 ]
 
 // get the nav elements
