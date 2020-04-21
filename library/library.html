@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/materialize.css" media="screen,projection">
+
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/logos/icon_vr_club.ico">
+
+    <title>Clemson Immersive Space | Home</title>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="The Clemson University Immersive Space features a variety of virtual and augmented reality headsets to help students, faculty and researches develop projects for VR. The space was successfully funded by the Information Technology Student Advisory Board and is operated in partnership with Clemson University's VR Club. If you're interested in learning about development for VR, stop by the space, located at room 308 in the Watt Family Innovation Center, or create a reservation if you already know what equipment you'd like to use.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+
+    <header>
+        <div class="center-align">
+            <div class="clemson_color_blue_ridge">
+                <a href="../home/">
+                    <img src="../assets/images/logos/logo_immersive_space.png" class="header-image" alt="Clemson University Immersive Space Logo">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="clemson_nav">
+        <div class="nav-wrapper" id="nav_table">
+            <a href="#!" data-target="collapsible-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+
+    <ul class="sidenav" id="collapsible-menu"></ul>
+
+    <!--Game List-->
+    <div class="divider"></div>
+    <div class="page_content">
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col l12">
+                        <h1>The Immersive Space Library</h1>
+                        <nl>
+                        <p>The Immersive Space has a wide variety of vr content for you to try, from action packed games to educational software</p>
+                            <div class="dropdown">
+                                <button onclick="myFunction()" class="dropbtn">Sort Options</button>
+                                <div id="myDropdown" class="dropdown-content">
+                                    <button onclick="genreSort('genre')" class="sort">Genre</button>
+                                    <button onclick="genreSort('alphabet')" class="sort">Alphabetical</button>
+                                    <button onclick="genreSort('internPick')" class="sort">Intern's Choice</button>
+                                    <button onclick="genreSort('popularity')" class="sort">Popularity</button>
+                                </div>
+                                <nl>
+                            </div>
+                            <p></p>
+                            <div id='libArray'></div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="../assets/js/libraryDisplay.js"></script>
+    <script type="text/javascript" src="../assets/js/librarySelection.js"></script>
+
+    <footer class="page-footer clemson_color_gameday_sky">
+        <div class="container">
+            <div class="row">
+                <div class="col l4 m12 s12">
+                    <div class="center-position footer_links">
+
+                        <p>
+                            <table class="footer_table"><tbody id="nav_footer"></tbody></table>
+                        </p>
+                    </div>
+                </div>
+                <div class="col l2 offset-l1 m12 s12">
+                    <div class="center-position">
+                        <ul>
+                            <li>
+                                <p>
+                                    Watt Family Innovation Center<br>
+                                    Room 308<br>
+                                    405 S Palmetto Blvd,<br>
+                                    Clemson, SC 29634
+                                </p>
+                            </li>
+                    </div>
+                </div>
+                <div class="col l2 offset-l3 m12 s12">
+                    <ul class="center-position footer_links">
+                        <li><img src="../assets/images/logos/social_media/logo_instagram_blue_ridge.png" width="20" height="auto"><a class="footer_links" href="https://www.instagram.com/clemsonvr/">clemsonvr</a></li><br>
+                        <li><img src="../assets/images/logos/social_media/logo_twitter_blue_ridge.png" width="20" height="auto"><a class="footer_links" href="https://twitter.com/ClemsonVR">ClemsonVR</a></li>
+                </div>
+            </div>
+            <p>*Hours: Please join our discord for more event information: <a href="https://discord.gg/SA5Nzs2" style="text-decoration: none; color: white;">Join Now!</a></p>
+        </div>
+        <div class="footer-copyright">
+            <div class="container footer_associate_links center-on-medium-and-down">
+                <span>
+                    <br class="hide-on-large-and-up">
+                    <span>Contact us:<a href="mailto:vrclub@clemson.edu">vrclub@clemson.edu</a></span>
+                </span>
+                <span class="right-on-large-and-up">
+                    <br class="hide-on-large-and-up">
+                    <a href="http://www.clemson.edu/">Clemson University</a> <br class="hide-on-med-and-up"><span class="center-align hide-on-small-and-down custom-hide-1"> | </span>
+                    <a href="http://www.clemson.edu/siteinfo.html">Website&nbspInformation</a>
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Materialize -->
+    <script src="../assets/js/materialize.min.js"></script>
+
+    <!-- Initialize SideNav Plugin -->
+    <script>
+        var elem = document.querySelector('.sidenav');
+        var instance = new M.Sidenav(elem)
+    </script>
+    <!-- End Materialize -->
+
+    <!-- Google Analytics -->
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107277217-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments)
+        };
+        gtag('js', new Date());
+
+        gtag('config', 'UA-107277217-1');
+    </script>
+    <!-- End Google Analytics -->
+
+    <script src="../assets/js/navbar.js"></script>
+    <!-- End Scripts -->
+
+</body>
+
+</html>
