@@ -4,25 +4,15 @@ class navElement {
     }
 }
 
-/* var page_links = [
-    new navElement("Home", "../home/index.html"),
-    new navElement("About", "../about/index.html"),
-    new navElement("People", "../people/index.html"),
-    new navElement("Equipment", "../equipment/index.html"),
-    new navElement("Experiences", "../experiences/index.html"),
-    new navElement("Resources", "../resources/index.html"),
-    new navElement("Reservations", "../reservations/index.html"),
-] */
-
 var page_links = [
-    new navElement("Home", "../home/"),
+    new navElement("Home", "../home"),
     new navElement("About", "../about"),
     new navElement("People", "../people"),
     new navElement("Equipment", "../equipment"),
     new navElement("Experiences", "../experiences"),
     new navElement("Resources", "../resources"),
     new navElement("Reservations", "../reservations"),
-    new navElement("Library", "../library"),
+    new navElement("Library", "../library")
 ]
 
 // get the nav elements
