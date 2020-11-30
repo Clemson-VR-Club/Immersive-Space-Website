@@ -22,17 +22,26 @@ class jsonReader {
  */
 class SortType {
     // Sort Types
-    static ALPHABETICAL = new SortType(0);
-    static REVERSE_ALPHABETICAL = new SortType(1);
-    static NEWEST_FIRST = new SortType(2);
-    static OLDEST_FIRST = new SortType(3);
-    static GENRE = new SortType(4, SortType.ALPHABETICAL);
+    static ALPHABETICAL = new SortType(0, "Alphabetical");
+    static REVERSE_ALPHABETICAL = new SortType(1, "Reverse Alphabetical");
+    static NEWEST_FIRST = new SortType(2, "Newest First");
+    static OLDEST_FIRST = new SortType(3, "Oldest First");
+    static GENRE = new SortType(4, "Genre", SortType.ALPHABETICAL);
+
+    static SortTypes = [
+        SortType.ALPHABETICAL,
+        SortType.REVERSE_ALPHABETICAL,
+        SortType.NEWEST_FIRST,
+        SortType.OLDEST_FIRST,
+        SortType.GENRE
+    ];
 
     static DEFAULT = SortType.ALPHABETICAL;
     static DEFAULT_PRELIM_SORT = SortType.ALPHABETICAL;
 
-    constructor(sortTypeIndex, preliminarySortType = null) {
+    constructor(sortTypeIndex, sortTypeName, preliminarySortType = null) {
         this.sortTypeIndex = sortTypeIndex;
+        this.sortTypeName = sortTypeName;
         this.preliminarySortType = preliminarySortType;
         this.isPreliminarySortRequired = (this.preliminarySortType != null)
     }
@@ -52,6 +61,9 @@ class SortType {
         return this.preliminarySortType;
     }
 
+    static getSortType(index) {
+        return SortType.SortTypes[index];
+    }
 }
 
 /* 
@@ -74,7 +86,7 @@ class LibraryConfig {
         // default config for fallback
         this.libraryDivID = "library_content";
         this.sortType = SortType.DEFAULT;
-        this.categoryOption = LibraryConfig.DEFAULT_OPTION;
+        this.categoryOption = LibraryConfig.DEFAULT_DATE_OPTION;
         this.groupEntriesByCategory = true;
     }
 
@@ -627,18 +639,40 @@ class LibraryContentController {
  * Description: Controller class that handles displaying the library
  */
 class LibraryDisplayController {
-    constructor(libraryDivContent, config) {
+    constructor(libraryDivContent, controlPanelController, config) {
         this.libraryDivContent = libraryDivContent;
+        this.controlPanel = controlPanelController;
         this.config = config;
-        this.libraryDivElement = document.getElementById(this.config.getLibraryDivID());
+
+        this.init()
     }
 
-    display() {
+    createElements() {
+        this.libraryDivElement = document.getElementById(this.config.getLibraryDivID());
+        this.libraryContentDivElement = document.createElement("div");
+    }
+
+    configureElements() {
+        this.libraryContentDivElement.id = "element_container"
+    }
+
+    structureElements() {
+        this.libraryDivElement.appendChild(this.controlPanel.getControlPanelElement());
+        this.libraryDivElement.appendChild(this.libraryContentDivElement);
+    }
+
+    init() {
+        this.createElements();
+        this.configureElements();
+        this.structureElements();
+    }
+
+    displayElements() {
         // clear the current display
-        this.libraryDivElement.innerHTML = "";
+        this.libraryContentDivElement.innerHTML = "";
         // repopulate the div
         for (let element of this.libraryDivContent) {
-            this.libraryDivElement.appendChild(element);
+            this.libraryContentDivElement.appendChild(element);
         }
     }
 
@@ -655,6 +689,78 @@ class LibraryDisplayController {
     }
 }
 
+class LibraryControlPanelController {
+    constructor(libraryController, config) {
+        this.libraryController = libraryController;
+        this.config = config;
+        this.init();
+    }
+
+    createElements() {
+        // various div creation
+        this.controlPanelDiv = document.createElement("div");
+        this.selectContainerDiv = document.createElement("div");
+
+        // sort type select element
+        this.sortTypeSelectElement = document.createElement("select");
+
+        // sort type p tag
+        this.sortTypeTextElement = document.createElement("p");
+
+        this.createSortTypeOptionElements();
+    }
+
+    configureElements() {
+        this.controlPanelDiv.classList.add("row");
+        this.selectContainerDiv.classList.add("col");
+
+        this.sortTypeTextElement.innerText = "Sort Type: "
+        this.sortTypeSelectElement.id = "sort_type_select"
+        this.sortTypeSelectElement.style.display = "block";
+        // this.sortTypeSelectElement.style.background = "#86898C";
+        this.sortTypeSelectElement.onchange = this.updateSortType;
+
+    }
+
+    structureElements() {
+        this.controlPanelDiv.appendChild(this.selectContainerDiv);
+
+        this.selectContainerDiv.appendChild(this.sortTypeTextElement);
+        this.selectContainerDiv.appendChild(this.sortTypeSelectElement);
+
+        for (let element of this.sortTypeOptionElements) {
+            this.sortTypeSelectElement.appendChild(element)
+        }
+    }
+
+    createSortTypeOptionElements() {
+        this.sortTypeOptionElements = [];
+
+        for (let sortType of SortType.SortTypes) {
+            let opt = document.createElement("option");
+            opt.innerText = sortType.sortTypeName;
+            opt.value = sortType.sortTypeIndex;
+            this.sortTypeOptionElements.push(opt);
+        }
+    }
+
+    init() {
+        this.createElements();
+        this.configureElements();
+        this.structureElements();
+    }
+
+    getControlPanelElement() {
+        return this.controlPanelDiv;
+    }
+
+    updateSortType() {
+        let selectElem = document.getElementById("sort_type_select");
+        libraryController.config.sortType = SortType.getSortType(selectElem.value);
+        libraryController.notifySortTypeChanged();
+    }
+}
+
 /*
  * Description: This class controlls the overall library and communicates with other library classes
  */
@@ -665,9 +771,19 @@ class LibraryController {
 
         this.config = new LibraryConfig(configData);
         this.contentController = new LibraryContentController(libraryData, this.config);
-        this.displayController = new LibraryDisplayController(this.contentController.content, this.config);
+        this.controlPanelController = new LibraryControlPanelController(this.config);
+        this.displayController = new LibraryDisplayController(this.contentController.content, this.controlPanelController, this.config);
     }
 
+    notifySortTypeChanged() {
+        this.applyChanges();
+    }
+
+    /**
+     * @description This function changes the sort type of the library. used from console during debugging
+     * @param {*} sortType 
+     * @param {*} categoryOption 
+     */
     changeSortType(sortType, categoryOption = null) {
         this.config.sortType = sortType;
         if (this.config.requiresCategoryOption())
@@ -677,11 +793,11 @@ class LibraryController {
 
     applyChanges() {
         this.contentController.updateContent();
-        this.displayController.display();
+        this.displayController.displayElements();
     }
 
     run() {
-        this.displayController.display();
+        this.displayController.displayElements();
     }
 }
 
